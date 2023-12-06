@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<!-- Mirrored from preschool.dreamguystech.com/template/student-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Oct 2023 10:36:36 GMT -->
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<title>Sidebar-menu</title>
+	<link rel="shortcut icon" th:href="@{/img/Logo_Dai_hoc_Can_Tho.png}">
+
+	<link th:href="@{/css/font-google-apis.css}" rel="stylesheet">
+
+	<link rel="stylesheet" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/feather/feather.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/icons/flags/flags.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/fontawesome/css/fontawesome.min.css}">
+	<link rel="stylesheet" th:href="@{/plugins/fontawesome/css/all.min.css}">
+	<link rel="stylesheet" th:href="@{/plugins/datatables/datatables.min.css}">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<style>
+		#sidebar {
+			/* CSS cho sidebar khi không bị ẩn */
+			width: 250px;
+			/* Thêm bất kỳ thuộc tính CSS khác mà bạn muốn */
+		}
+
+		#sidebar.collapsed {
+			/* CSS cho sidebar khi bị ẩn */
+			width: 0;
+			/* Thêm bất kỳ thuộc tính CSS khác mà bạn muốn */
+		}
+
+		#sidebar.collapsed .sidebar-menu {
+			/* CSS cho phần tử con khi sidebar bị ẩn */
+			display: none;
+			/* Thêm bất kỳ thuộc tính CSS khác mà bạn muốn */
+		}
+
+		#sidebar.collapsed+.page-wrapper {
+			/* Điều chỉnh chiều rộng của .page-wrapper khi sidebar bị ẩn */
+			margin-left: 0;
+			/* Hoặc bạn có thể sử dụng padding-left để thay đổi khoảng cách bên trái */
+		}
+	</style>
+</head>
+
+<body>
+	
+	<div class="sidebar" id="sidebar" th:fragment="sidebar_gv">
+		<div class="sidebar-inner slimscroll">
+			<div id="sidebar-menu" class="sidebar-menu">
+				<ul>
+					<li class="submenu active">
+						<a href="#"><i class="fas fa-graduation-cap"></i> <span> Quản Lý Học Sinh</span> <span
+								class="menu-arrow"></span></a>
+						<ul>
+							<li><a th:href="@{/teacher/home}" class="active">Kết quả học tập</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="page-wrapper">
+		<div class="content container-fluid">
+			<div>
+				<a href="#" id="toggle-sidebar"><i class="fas fa-bars"></i></a>
+			</div>
+		</div>
+	</div>
+
+
+	<!--	<script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>-->
+
+	<script th:src="@{/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+	<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+	<script th:src="@{/js/feather.min.js}"></script>
+
+	<script th:src="@{/js/script.js}"></script>
+	<script>
+		$(document).ready(function () {
+			$("#toggle-sidebar").click(function () {
+				$("#sidebar").toggleClass("collapsed");
+			});
+		});
+	</script>
+
+</body>
+
+<!-- Mirrored from preschool.dreamguystech.com/template/student-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Oct 2023 10:36:42 GMT -->
+
+</html>

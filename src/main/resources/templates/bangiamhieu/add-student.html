@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<!-- Mirrored from preschool.dreamguystech.com/template/add-student.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Oct 2023 10:36:42 GMT -->
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<title>Tạo Tài Khoản Học Sinh</title>
+
+	<link rel="shortcut icon" th:href="@{/img/Logo_Dai_hoc_Can_Tho.png}">
+
+	<link th:href="@{/css/font-google-apis.css}" rel="stylesheet">
+
+	<link rel="stylesheet" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/feather/feather.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/icons/flags/flags.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/fontawesome/css/fontawesome.min.css}">
+	<link rel="stylesheet" th:href="@{/plugins/fontawesome/css/all.min.css}">
+	<link rel="stylesheet" th:href="@{/plugins/datatables/datatables.min.css}">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/plugins/select2/css/select2.min.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap-datetimepicker.min.css}">
+	<style>
+		#sidebar {
+			/* CSS cho sidebar khi không bị ẩn */
+			width: 250px;
+			/* Thêm bất kỳ thuộc tính CSS khác mà bạn muốn */
+		}
+
+		#sidebar.collapsed {
+			/* CSS cho sidebar khi bị ẩn */
+			width: 0;
+			/* Thêm bất kỳ thuộc tính CSS khác mà bạn muốn */
+		}
+
+		#sidebar.collapsed .sidebar-menu {
+			/* CSS cho phần tử con khi sidebar bị ẩn */
+			display: none;
+			/* Thêm bất kỳ thuộc tính CSS khác mà bạn muốn */
+		}
+
+		#sidebar.collapsed+.page-wrapper {
+			/* Điều chỉnh chiều rộng của .page-wrapper khi sidebar bị ẩn */
+			margin-left: 0;
+			/* Hoặc bạn có thể sử dụng padding-left để thay đổi khoảng cách bên trái */
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="main-wrapper">
+
+		<!--Header-->
+		<div th:replace="~{fragments/header :: header}"></div>
+		<!--Side-bar-->
+		<div class="sidebar" id="sidebar">
+			<div class="sidebar-inner slimscroll">
+				<div id="sidebar-menu" class="sidebar-menu">
+					<ul>
+						<li class="submenu">
+							<li><a th:href="@{/admin/dashboard}">
+								<i class="fa fa-th-large" style="margin-right: 8px;"></i> Thống Kê</a></li>
+						</li>
+					</ul>
+					
+					<ul>
+						<li class="submenu active">
+							<a href="#"><i class="fas fa-graduation-cap"></i> <span> Quản Lý Tài
+									Khoản</span> <span class="menu-arrow"></span></a>
+							<ul>
+								<li><a th:href="@{/admin/home}" class="active">Tài Khoản</a></li>
+							</ul>
+						</li>
+					</ul>
+
+					<ul>
+						<li class="submenu">
+							<a href="#"><i class="fas fa-graduation-cap"></i> <span> Quản Lý Giáo Viên</span> <span
+									class="menu-arrow"></span></a>
+							<ul>
+								<li><a th:href="@{/admin/home/teachers}">Thông Tin Giáo Viên</a></li>
+							</ul>
+						</li>
+					</ul>
+					<ul>
+						<li class="submenu">
+							<a href="#"><i class="fas fa-graduation-cap"> </i> <span> Quản Lý Lớp Học</span> <span
+									class="menu-arrow"></span></a>
+							<ul>
+								<li><a th:href="@{/admin/home/students}">Thông Tin Học Sinh</a></li>
+								<li><a th:href="@{/admin/students/scores}">Bảng Điểm Học Sinh</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<!--Content-->
+		<div class="page-wrapper">
+			<div class="content container-fluid">
+
+				<div>
+					<a href="#" id="toggle-sidebar"><i class="fas fa-bars"></i></a>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12">
+
+						
+
+						<div class="card comman-shadow">
+							<div class="card-body">
+								<form method="post" th:action="@{/admin/account/student/save}" th:object="${user}">
+									
+									<div th:if="${message}" class="alert alert-danger" role="alert">
+										<p th:text="${message}"> </p>
+									</div>
+									
+									<div class="row">
+										<div class="col-12" style="margin-bottom: 1%;">
+											 <div class="d-flex align-items-center">
+												<a href="#" onclick="goBack()">
+													<i class="fa fa-arrow-left" 
+														style="transform: scale(1.5); color: #3d5ee1;"> </i></a>
+												<h5 class="form-title student-info" 
+													style="margin-top: 2%; margin-left: 4%; font-size: 30px;">Thông Tin Tài Khoản Học Sinh</h5>
+											 </div>
+										</div>
+
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<label>Họ Tên <span class="login-danger">*</span></label> <input
+													class="form-control" id="hoTen" name="hoTen"
+													placeholder="Nhập họ tên" th:field="*{hoTen}" type="text" />
+
+											</div>
+										</div>
+
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<label>Tên Đăng Nhập <span class="login-danger">*</span></label>
+												<input class="form-control" id="username" name="username"
+													placeholder="Nhập tên đăng nhập" th:field="*{username}"
+													type="text" />
+
+											</div>
+										</div>
+
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<label>Mật Khẩu <span class="login-danger">*</span></label>
+												<input class="form-control" id="password" name="password"
+													placeholder="Nhập mật khẩu" th:field="*{password}"
+													type="password" />
+
+											</div>
+										</div>
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<label>Giới Tính <span class="login-danger">*</span></label>
+												<select class="form-control" id="gioiTinh" name="gioiTinh"
+													th:field=*{gioiTinh}>
+													<option value="Nữ">Nữ</option>
+													<option value="Nam">Nam</option>
+												</select> 
+												<!--<input type="hidden" id="gioiTinh" name="gioiTinh" value="true">-->
+											</div>
+										</div>
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms calendar-icon">
+												<label>Năm Sinh <span class="login-danger">*</span></label>
+												<input class="form-control" id="namSinh" name="namSinh"
+													th:field="*{namSinh}" type="date" placeholder="DD-MM-YYYY" />
+
+											</div>
+										</div>
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<label>Địa Chỉ <span class="login-danger">*</span></label> <input
+													class="form-control" id="diaChi" name="diaChi"
+													placeholder="Nhập địa chỉ thường trú" th:field="*{diaChi}"
+													type="text">
+
+											</div>
+										</div>
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<label>Email <span class="login-danger">*</span></label> <input
+													class="form-control" id="email" name="email"
+													placeholder="Nhập địa chỉ email" th:field="*{email}"
+													type="email">
+											</div>
+										</div>
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<label>Họ Tên Phụ Huynh <span class="login-danger">*</span></label>
+												<input class="form-control" id="tenPhuHuynh" name="tenPhuHuynh"
+													placeholder="Nhập họ tên phụ huynh" type="text">
+												</select>
+											</div>
+										</div>
+
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<label>Số Điện Thoại Phụ Huynh <span class="login-danger">*</span></label>
+												<input class="form-control" id="sdtPhuHuynh" name="sdtPhuHuynh"
+													placeholder="Nhập số điện thoại phụ huynh" type="text">
+												</select>
+											</div>
+										</div>
+
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<label>Lớp Học <span class="login-danger">*</span></label>
+												<select class="form-control" id="clazzSelect" name="lophoc">
+													<option th:each="clazz :${classEntities}" th:text="${clazz.tenLop}"
+														th:value="${clazz.id}"> </option>
+												</select>
+											</div>
+										</div>
+										
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<label>Niên Khóa <span class="login-danger">*</span></label>
+												<select class="form-control" id="yearSelect" name="nienkhoa">
+													<option th:each="year :${yearEntities}" th:text="${year.tenNk}"
+														th:value="${year.id}"> </option>
+												</select>
+											</div>
+										</div>
+										
+										<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
+										<div class="col-12">
+											<div class="student-submit">
+												<button type="submit" class="btn btn-primary">Thêm tài khoản</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--Footer-->
+
+		</div>
+
+	</div>
+
+
+
+
+	<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+	<script th:src="@{/js/feather.min.js}"></script>
+
+	<script th:src="@{/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+	<script th:src="@{/plugins/select2/js/select2.min.js}"></script>
+
+	<script th:src="@{/plugins/moment/moment.min.js}"></script>
+	<script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
+
+	<script th:src="@{/js/script.js}"></script>
+</body>
+<script>
+	$('#namSinh').datetimepicker({
+		format: 'yyyy-MM-DD'
+	});
+
+	$(document).ready(function () {
+		$("#toggle-sidebar").click(function () {
+			$("#sidebar").toggleClass("collapsed");
+		});
+	});
+
+	function goBack() {
+            window.history.back();
+    }
+</script>
+<!-- Mirrored from preschool.dreamguystech.com/template/add-student.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Oct 2023 10:36:47 GMT -->
+
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from preschool.dreamguystech.com/template/add-student.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Oct 2023 10:36:42 GMT -->
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<title>Nhập Điểm</title>
+
+	<link rel="shortcut icon" th:href="@{/img/Logo_Dai_hoc_Can_Tho.png}">
+
+	<link th:href="@{/css/font-google-apis.css}" rel="stylesheet">
+
+	<link rel="stylesheet" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/feather/feather.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/icons/flags/flags.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/fontawesome/css/fontawesome.min.css}">
+	<link rel="stylesheet" th:href="@{/plugins/fontawesome/css/all.min.css}">
+	<link rel="stylesheet" th:href="@{/plugins/datatables/datatables.min.css}">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/plugins/select2/css/select2.min.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap-datetimepicker.min.css}">
+
+	<style>
+		#sidebar {
+			/* CSS cho sidebar khi không bị ẩn */
+			width: 250px;
+			/* Thêm bất kỳ thuộc tính CSS khác mà bạn muốn */
+		}
+
+		#sidebar.collapsed {
+			/* CSS cho sidebar khi bị ẩn */
+			width: 0;
+			/* Thêm bất kỳ thuộc tính CSS khác mà bạn muốn */
+		}
+
+		#sidebar.collapsed .sidebar-menu {
+			/* CSS cho phần tử con khi sidebar bị ẩn */
+			display: none;
+			/* Thêm bất kỳ thuộc tính CSS khác mà bạn muốn */
+		}
+
+		#sidebar.collapsed+.page-wrapper {
+			/* Điều chỉnh chiều rộng của .page-wrapper khi sidebar bị ẩn */
+			margin-left: 0;
+			/* Hoặc bạn có thể sử dụng padding-left để thay đổi khoảng cách bên trái */
+		}
+		
+        input[type="checkbox"] {
+            transform: scale(1.5); /* Tăng kích thước lên 1.5 lần */
+            margin-right: 5px; /* Tăng khoảng cách giữa checkbox và văn bản bên cạnh */
+        }
+	</style>
+</head>
+
+<body>
+
+	<div class="main-wrapper">
+
+		<!--Header-->
+		<div th:replace="~{fragments/header :: header}"></div>
+		<!--Side-bar-->
+		<!--<div th:replace="~{fragments/sidebar_gvcn :: sidebar_gvcn}"></div>-->
+		<div class="sidebar" id="sidebar" th:fragment="sidebar_gvcn">
+			<div class="sidebar-inner slimscroll">
+				<div id="sidebar-menu" class="sidebar-menu">
+					<ul>
+						<li class="submenu active">
+							<a href="#"><i class="fas fa-graduation-cap"></i> <span> Quản Lý Học Sinh</span> <span
+									class="menu-arrow"></span></a>
+							<ul>
+								<li><a th:href="@{/hteacher/home}" class="active">Kết quả học tập</a></li>
+								<li><a th:href="@{/hteacher/home/students}">Thông Tin Học Sinh</a></li>
+								<li><a th:href="@{/hteacher/home/students/scores}">Bảng Điểm Tổng Kết</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--Content-->
+		<div class="page-wrapper">
+			<div class="content container-fluid">
+
+				<div>
+					<a href="#" id="toggle-sidebar"><i class="fas fa-bars"></i></a>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card comman-shadow">
+							<div class="card-body">
+								<form method="post" th:action="@{/hteacher/score/edit}">
+									<div class="row">
+										
+										<div th:if="${message}" class="alert alert-danger" role="alert">
+											<p th:text="${message}"> </p>
+										</div>
+										
+										<div class="col-12" style="margin-bottom: 1%;">
+											 <div class="d-flex align-items-center">
+												<a href="#" onclick="goBack()">
+													<i class="fa fa-arrow-left" 
+														style="transform: scale(1.5); color: #3d5ee1;"> </i></a>
+												<h5 class="form-title student-info" 
+													style="margin-top: 2%; margin-left: 4%; font-size: 30px;">Nhập Điểm</h5>
+											 </div>
+										</div>
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<label>Họ Tên</label>
+												<input class="form-control" type="text"
+													th:field="*{score.hocSinh.nguoiDung[0].hoTen}">
+												<input type="hidden" id="hocSinhId" name="hocSinhId"
+													th:value="${score.hocSinh.id}">
+											</div>
+										</div>
+
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<label>Môn Học</label>
+												<input class="form-control" type="text"
+													th:field="*{score.monHoc.tenMonHoc}">
+												<input type="hidden" name="monHocId" id="monHocId"
+													th:value="${score.monHoc.id}">
+
+											</div>
+										</div>
+
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<label>Học Kỳ</label>
+												<input class="form-control" type="text" th:field="*{score.hocKy.tenHk}">
+												<input type="hidden" name="hocKyId" id="hocKyId"
+													th:value="${score.hocKy.id}">
+											</div>
+										</div>
+
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<label>Điểm Trả Bài <span class="login-danger">*</span></label>
+												<input class="form-control" th:field="*{score.diemTraBai}" 
+												type="text" id="diemTrabaiInput"/>
+											</div>
+										</div>
+
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<label>Điểm Giữa Kỳ <span class="login-danger">*</span></label>
+												<input class="form-control" th:field="*{score.diemGiuaKy}"
+													type="text" id="diemGiuaKyInput"/>
+											</div>
+										</div>
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<label>Điểm Cuối Kỳ <span class="login-danger">*</span></label>
+												<input class="form-control" th:field="*{score.diemCuoiKy}"
+													type="text" id="diemCuoiKyInput"/>
+											</div>
+										</div>
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<label>Điểm Trung Bình <span class="login-danger">*</span></label>
+												<input class="form-control" th:field="*{score.diemTrungBinh}"
+													type="text" id="diemTrungBinhInput"/>
+											</div>
+										</div>
+										
+										<div class="col-12 col-sm-4">
+											<div class="form-group local-forms">
+												<a><input type="checkbox" value="true"
+													id="sendMail" name="sendMail" 
+													style="margin-top: 4%;"> Gửi email thông báo</a>
+											</div>
+										</div>
+										
+										<div class="col-12">
+											<div class="student-submit">
+												<button type="submit" class="btn btn-primary">Lưu</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--Footer-->
+
+		</div>
+
+	</div>
+
+
+	<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+	<script th:src="@{/js/feather.min.js}"></script>
+
+	<script th:src="@{/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+	<script th:src="@{/plugins/select2/js/select2.min.js}"></script>
+
+	<script th:src="@{/plugins/moment/moment.min.js}"></script>
+	<script th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
+
+	<script th:src="@{/js/script.js}"></script>
+
+	<script>
+		$(document).ready(function () {
+			$("#toggle-sidebar").click(function () {
+				$("#sidebar").toggleClass("collapsed");
+			});
+		});
+
+		$(document).ready(function () {
+			// Lắng nghe sự kiện khi các trường điểm thay đổi
+			$("#diemTrabaiInput, #diemGiuaKyInput, #diemCuoiKyInput").on("input", function () {
+				// Lấy giá trị từ các trường điểm
+				var diemTraBai = parseFloat($("#diemTrabaiInput").val()) || 0;
+				var diemGiuaKy = parseFloat($("#diemGiuaKyInput").val()) || 0;
+				var diemCuoiKy = parseFloat($("#diemCuoiKyInput").val()) || 0;
+
+				// Tính toán điểm trung bình
+				var diemTrungBinh = (diemTraBai + (diemGiuaKy * 2)+ (diemCuoiKy * 3)) / 6;
+				
+				if (diemCuoiKy==0){
+					diemTrungBinh = 0;
+					$("#diemTrungBinhInput").val(diemTrungBinh.toFixed(2));
+				} else {
+					// Cập nhật trường Điểm Trung Bình
+					$("#diemTrungBinhInput").val(diemTrungBinh.toFixed(2));
+				}
+				
+			});
+		});
+		
+		function goBack() {
+            window.history.back();
+        }
+	</script>
+
+</body>
+
+<!-- Mirrored from preschool.dreamguystech.com/template/add-student.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Oct 2023 10:36:47 GMT -->
+
+</html>

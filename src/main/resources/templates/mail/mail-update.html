@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Mail Thông Báo Điểm Cuối Kỳ</title>
+</head>
+<body>
+	<p th:text="'Xin chào quý phụ huynh em ' + ${name}"></p>
+	<p th:text="'Chúng tôi xin thông báo rằng điểm của ' + ${subject_name} + ' đã được cập nhật lên hệ thống'"></p>
+	<p>Phụ huynh hãy lên hệ thống để xem điểm.</p>
+	<p>Nếu có bất kỳ thắc mắc nào về điểm số hãy liên hệ với giáo viên chủ nhiệm.</p>
+</body>
+</html>

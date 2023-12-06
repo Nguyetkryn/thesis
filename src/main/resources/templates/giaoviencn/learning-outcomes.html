@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from preschool.dreamguystech.com/template/students.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Oct 2023 10:36:26 GMT -->
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<title>Kết Quả Học Tập</title>
+
+	<link rel="shortcut icon" th:href="@{/img/Logo_Dai_hoc_Can_Tho.png}">
+
+	<link th:href="@{/css/font-google-apis.css}" rel="stylesheet">
+
+	<link rel="stylesheet" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/feather/feather.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/icons/flags/flags.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/fontawesome/css/fontawesome.min.css}">
+	<link rel="stylesheet" th:href="@{/plugins/fontawesome/css/all.min.css}">
+	<link rel="stylesheet" th:href="@{/plugins/datatables/datatables.min.css}">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+
+	<style>
+		#sidebar {
+			/* CSS cho sidebar khi không bị ẩn */
+			width: 250px;
+			/* Thêm bất kỳ thuộc tính CSS khác mà bạn muốn */
+		}
+
+		#sidebar.collapsed {
+			/* CSS cho sidebar khi bị ẩn */
+			width: 0;
+			/* Thêm bất kỳ thuộc tính CSS khác mà bạn muốn */
+		}
+
+		#sidebar.collapsed .sidebar-menu {
+			/* CSS cho phần tử con khi sidebar bị ẩn */
+			display: none;
+			/* Thêm bất kỳ thuộc tính CSS khác mà bạn muốn */
+		}
+
+		#sidebar.collapsed+.page-wrapper {
+			/* Điều chỉnh chiều rộng của .page-wrapper khi sidebar bị ẩn */
+			margin-left: 0;
+			/* Hoặc bạn có thể sử dụng padding-left để thay đổi khoảng cách bên trái */
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="main-wrapper">
+
+		<!--Header-->
+		<div th:replace="~{fragments/header :: header}"></div>
+		<!--Side-bar-->
+		<div class="sidebar" id="sidebar" th:fragment="sidebar_gvcn">
+			<div class="sidebar-inner slimscroll">
+				<div id="sidebar-menu" class="sidebar-menu">
+					<ul>
+						<li class="submenu active" style="height: 500px;">
+							<a href="#"><i class="fas fa-graduation-cap"></i> <span> Quản Lý Học Sinh</span> <span
+									class="menu-arrow"></span></a>
+							<ul>
+								<li><a th:href="@{/hteacher/home}" class="active">Kết quả học tập</a></li>
+								<li><a th:href="@{/hteacher/home/students}">Thông Tin Học Sinh</a></li>
+								<li><a th:href="@{/hteacher/home/students/scores}">Bảng Điểm Tổng Kết</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--Content-->
+		<div class="page-wrapper">
+			<div class="content container-fluid">
+
+				<div>
+					<a href="#" id="toggle-sidebar"><i class="fas fa-bars"></i></a>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card card-table comman-shadow">
+							<div class="card-body">
+
+								<div class="page-header">
+									<div class="row align-items-center">
+										<div class="col">
+											<h3 class="page-title" style="font-size: 30px;">Danh Sách Kết Quả Học Tập
+											</h3>
+										</div>
+									</div>
+								</div>
+								<div>
+									<form th:action="@{/hteacher/home}">
+										<div class="row">
+											<div class="col-12 col-sm-2">
+												<div class="form-group local-forms">
+													<label>Niên Khóa</label>
+													<select class="form-control select" id="schoolYearSelect"
+														name="nienkhoaId">
+														<option th:each="namHoc :${schoolYears}" th:value="${namHoc.id}"
+															th:text="${namHoc.tenNk}"
+															th:selected="${namHoc.id} == ${yearId}" />
+													</select>
+												</div>
+											</div>
+
+											<div class="col-12 col-sm-2">
+												<div class="form-group local-forms">
+													<label>Học Kỳ</label>
+													<select class="form-control select" id="semesterSelect"
+														name="hockyId">
+														<option th:each="hocKy :${semesters}" th:value="${hocKy.id}"
+															th:text="${hocKy.tenHk}"
+															th:selected="${hocKy.id} == ${semesterId}" />
+													</select>
+												</div>
+											</div>
+
+											<div class="col-12 col-sm-2">
+												<div class="form-group local-forms">
+													<label>Lớp Học</label>
+													<select class="form-control select" id="classSelect"
+														name="lophocId">
+														<option th:each="tcsEntity : ${classes}"
+															th:value="${tcsEntity.id}" th:text="${tcsEntity.tenLop}"
+															th:selected="${tcsEntity.id} == ${classId}" />
+													</select>
+												</div>
+											</div>
+											
+											<div class="col-12 col-sm-2">
+												<div class="form-group local-forms">
+													<label>Môn Học</label>
+													<select class="form-control select" id="subjectSelect"
+														name="monhocId">
+														<option th:each="monHoc : ${subjects}" th:value="${monHoc.id}"
+															th:text="${monHoc.tenMonHoc}"
+															th:selected="${monHoc.id} == ${subjectId}">
+														</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-12 col-sm-2">
+												<button type="submit" class="btn btn-primary">Xem bảng điểm</button>
+											</div>
+										</div>
+									</form>
+
+								</div>
+
+
+								<!--Score-->
+								<div class="table-responsive">
+									<table
+										class="table border-0 star-student table-hover table-center mb-0 datatable table-striped"
+										id="scoreTable">
+										<thead class="student-thread">
+											<tr>
+												<th>Họ Tên</th>
+												<th>Điểm Trả Bài</th>
+												<th>Điểm Giữa Kỳ</th>
+												<th>Điểm Cuối Kỳ</th>
+												<th>Điểm Trung Bình</th>
+												<th class="text-end">Thao Tác</th>
+											</tr>
+										</thead>
+										<tbody>
+											<th:block th:each="score :${scoreEntities}">
+												<tr th:each="teacher :${score.monHoc.giaoVien}"
+													th:if="${teacher.nguoiDung[0].username == currentUser.username}"
+													th:monhoc="${score.monHoc.id}" th:hocky="${score.hocKy.id}"
+													onclick="selectRow(this)" data-id="${score.hocSinh.id}">
+													<td th:text="${score.hocSinh.nguoiDung[0].hoTen}"
+														th:value="${score.hocSinh.id}" th:id="hocsinhIdTd"> </td>
+													<td th:text="${score.diemTraBai}"> </td>
+													<td th:text="${score.diemGiuaKy}"> </td>
+													<td th:text="${score.diemCuoiKy}"> </td>
+													<td th:text="${score.diemTrungBinh}"> </td>
+													<td class="text-end">
+														<div class="actions ">
+															<form th:action="@{/hteacher/score}">
+																<button type="submit" th:name="action"><a c
+																		class="btn btn-sm bg-danger-light">
+																		<i class="feather-edit"></i>
+																	</a></button>
+																<input th:value="${score.hocKy.id}" id="hockyId"
+																	name="hockyId" type="hidden" />
+																<input th:value="${score.monHoc.id}" id="monhocId"
+																	name="monhocId" type="hidden" />
+																<input th:value="${score.hocSinh.id}" id="hocsinhId"
+																	name="hocsinhId" type="hidden" />
+															</form>
+														</div>
+													</td>
+												</tr>
+											</th:block>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--Footer-->
+	</div>
+
+
+	<script th:src="@{/plugins/datatables/datatables.min.js}"></script>
+
+	<script th:src="@{/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+	<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+	<script th:src="@{/js/feather.min.js}"></script>
+
+	<script th:src="@{/js/script.js}"></script>
+
+	<script>
+
+		document.querySelector("form").addEventListener("submit", function () {
+			var classSelect = document.getElementById('classSelect');
+			var participantInput = document.getElementById('lophocId');
+			var selectedValue = classSelect.options[classSelect.selectedIndex].value;
+			participantInput.value = selectedValue;
+
+			var semesterSelect = document.getElementById('semesterSelect');
+			var participantInput1 = document.getElementById('hockyId');
+			var selectedValue1 = semesterSelect.options[semesterSelect.selectedIndex].value;
+			participantInput1.value = selectedValue1;
+
+			var subjectSelect = document.getElementById('subjectSelect');
+			var participantInput2 = document.getElementById('monhocId');
+			var selectedValue2 = subjectSelect.options[subjectSelect.selectedIndex].value;
+			participantInput2.value = selectedValue2;
+
+			var hocsinhId = $("#hocsinhIdTd").attr("value");
+			var hocsinhInput = document.getElementById('hocsinhId');
+			hocsinhInput.value = hocsinhId;
+		});
+
+		$(document).ready(function () {
+			$("#toggle-sidebar").click(function () {
+				$("#sidebar").toggleClass("collapsed");
+			});
+		});
+
+	</script>
+
+</body>
+
+
+<!-- Mirrored from preschool.dreamguystech.com/template/students.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Oct 2023 10:36:36 GMT -->
+
+</html>

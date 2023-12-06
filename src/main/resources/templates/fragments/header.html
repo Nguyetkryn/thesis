@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<!-- Mirrored from preschool.dreamguystech.com/template/student-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Oct 2023 10:36:36 GMT -->
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<title>Header</title>
+
+	<link rel="shortcut icon" th:href="@{/img/Logo_Dai_hoc_Can_Tho.png}">
+
+	<link th:href="@{/css/font-google-apis.css}" rel="stylesheet">
+
+	<link rel="stylesheet" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/feather/feather.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/icons/flags/flags.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/fontawesome/css/fontawesome.min.css}">
+	<link rel="stylesheet" th:href="@{/plugins/fontawesome/css/all.min.css}">
+	<link rel="stylesheet" th:href="@{/plugins/datatables/datatables.min.css}">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+	<div class="header" th:fragment="header">
+
+		<div class="header-left" style="width: 300px;">
+			<img src="/img/Logo_Dai_hoc_Can_Tho-small.png" alt="Logo">
+			<h3 style="margin-left: 10px;">Đại Học Cần Thơ</h3>
+		</div>
+
+		<ul class="nav user-menu">
+
+			<!--<li class="nav-item dropdown noti-dropdown me-2">
+				<a href="#" class="dropdown-toggle nav-link header-nav-list" data-bs-toggle="dropdown">
+					<img src="/img/icons/header-icon-05.svg" alt>
+				</a>
+				<div class="dropdown-menu notifications">
+					<div class="topnav-dropdown-header">
+						<span class="notification-title">Notifications</span>
+						<a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+					</div>
+
+					<div class="topnav-dropdown-footer">
+						<a href="#">View all Notifications</a>
+					</div>
+				</div>
+			</li>-->
+
+			<li class="nav-item dropdown has-arrow new-user-menus">
+				<a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+					<span class="user-img">
+						<!--<img class="rounded-circle" src="/img/profiles/avatar-01.jpg" width="31" alt="Ryan Taylor">-->
+						<div class="user-text" th:if="${currentUser != null}">
+							<h6 th:text="${currentUser.hoTen}"></h6>
+						</div>
+					</span>
+				</a>
+				<div class="dropdown-menu">
+					<div class="user-header">
+						<!--<div class="avatar avatar-sm">
+							<img src="/img/profiles/avatar-01.jpg" alt="User Image" class="avatar-img rounded-circle">
+						</div>-->
+						<div class="user-text" th:if="${currentUser != null}">
+							<h6 th:text="${currentUser.hoTen}"></h6>
+						</div>
+					</div>
+					<a class="dropdown-item" th:if="${currentUser != null}" th:href="@{/logout}"><i class="fa fa-arrow-right" style="margin-right: 10px;"> </i> Đăng Xuất</a>
+				</div>
+			</li>
+
+		</ul>
+
+	</div>
+
+
+
+	<!--	<script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>-->
+
+	<script th:src="@{/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+	<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+	<script th:src="@{/js/feather.min.js}"></script>
+
+	<script th:src="@{/js/script.js}"></script>
+</body>
+
+<!-- Mirrored from preschool.dreamguystech.com/template/student-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Oct 2023 10:36:42 GMT -->
+
+</html>

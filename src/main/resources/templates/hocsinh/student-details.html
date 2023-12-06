@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<!-- Mirrored from preschool.dreamguystech.com/template/student-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Oct 2023 10:36:36 GMT -->
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<title>Phụ Huynh Học Sinh</title>
+
+	<link rel="shortcut icon" th:href="@{/img/Logo_Dai_hoc_Can_Tho.png}">
+
+	<link th:href="@{/css/font-google-apis.css}" rel="stylesheet">
+
+	<link rel="stylesheet" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/feather/feather.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/icons/flags/flags.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/fontawesome/css/fontawesome.min.css}">
+	<link rel="stylesheet" th:href="@{/plugins/fontawesome/css/all.min.css}">
+	<link rel="stylesheet" th:href="@{/plugins/datatables/datatables.min.css}">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	
+</head>
+
+<body>
+
+	<div class="main-wrapper" style="width: 100%; height:100%">
+
+		<!--Header-->
+		<div class="header" th:fragment="header">
+
+			<div class="header-left" style="width: 500px;">
+				<img src="/img/Logo_Dai_hoc_Can_Tho-small.png" alt="Logo">
+				<h3 style="margin-left: 10px;">Đại Học Cần Thơ</h3>
+			</div>
+
+			<ul class="nav user-menu">
+
+				<!--<li class="nav-item dropdown noti-dropdown me-2">
+					<a href="#" class="dropdown-toggle nav-link header-nav-list" data-bs-toggle="dropdown">
+						<img src="/img/icons/header-icon-05.svg" alt>
+					</a>
+					<div class="dropdown-menu notifications">
+						<div class="topnav-dropdown-header">
+							<span class="notification-title">Notifications</span>
+							<a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+						</div>
+
+						<div class="topnav-dropdown-footer">
+							<a href="#">View all Notifications</a>
+						</div>
+					</div>
+				</li>-->
+				<li><a class="dropdown-item" th:if="${currentUser != null}" th:href="@{/logout}">
+						<i class="fa fa-sign-in" style="margin-right: 10px;"> </i> Đăng Xuất</a></li>
+			</ul>
+
+		</div>
+		<!--Content-->
+		<div class="page-wrapper" style="margin-left: 50px; 
+				   margin-right: 50px; 
+				   padding-top: 60px; 
+				   position: relative;	
+				   transition: all 0.4s ease;">
+			<div class="content container-fluid">
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="student-profile-head">
+									<div class="row">
+										<div class="col-lg-3 col-md-3">
+											<!--<div class="profile-user-img">
+											<img src="/img/profile-user.jpg" style="width: 200px; height: 200px;"
+												alt="Profile">
+										</div>-->
+											<div class="profile-user-box">
+												<div class="names-profiles">
+													<div class="user-text" th:if="${currentUser != null}">
+														<h6 style="font-size: 35px;" th:text="${currentUser.hoTen}">
+														</h6>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-lg-3">
+								<div class="student-personals-grp">
+									<div class="card">
+										<th:block th:each="student : ${students}">
+											<div class="card-body" th:each="hocsinh :${student.nguoiDung}"
+												th:if="${hocsinh.username == currentUser.username}">
+												<div class="heading-detail">
+													<h4>Thông tin cá nhân: </h4>
+												</div>
+												<div class="personal-activity">
+													<div class="personal-icons">
+														<i class="feather-user"></i>
+													</div>
+													<div class="views-personal" th:if="${hocsinh != null}">
+														<h4>Họ tên</h4>
+														<h5 th:text="${hocsinh.hoTen}"></h5>
+													</div>
+												</div>
+
+												<div class="personal-activity">
+													<div class="personal-icons">
+														<i class="feather-user"></i>
+													</div>
+													<div class="views-personal">
+														<h4>Giới tính</h4>
+														<h5 th:text="${hocsinh.gioiTinh}"></h5>
+													</div>
+												</div>
+												<div class="personal-activity">
+													<div class="personal-icons">
+														<i class="feather-calendar"></i>
+													</div>
+													<div class="views-personal">
+														<h4>Năm Sinh</h4>
+														<h5
+															th:text="${#dates.format(currentUser.namSinh, 'dd-MM-yyyy')}">
+														</h5>
+													</div>
+												</div>
+												<div class="personal-activity">
+													<div class="personal-icons">
+														<i class="feather-map-pin"></i>
+													</div>
+													<div class="views-personal">
+														<h4>Địa chỉ</h4>
+														<h5 th:text="${hocsinh.diaChi}"></h5>
+													</div>
+												</div>
+												<div class="personal-activity">
+													<div class="personal-icons">
+														<i class="feather-mail"></i>
+													</div>
+													<div class="views-personal">
+														<h4>Email</h4>
+														<h5 th:text="${hocsinh.email}"></h5>
+													</div>
+												</div>
+												<div class="personal-activity">
+													<div class="personal-icons">
+														<i class="feather-user"></i>
+													</div>
+													<div class="views-personal">
+														<h4>Họ tên phụ huynh</h4>
+														<h5 th:text="${student.tenPhuHuynh}"></h5>
+													</div>
+												</div>
+												<div class="personal-activity">
+													<div class="personal-icons">
+														<i class="feather-phone-call"></i>
+													</div>
+													<div class="views-personal">
+														<h4>Số điện thoại phụ huynh</h4>
+														<h5 th:text="${student.sdtPhuHuynh}"></h5>
+													</div>
+												</div>
+												<div class="personal-activity">
+													<div class="personal-icons">
+														<i class="feather-book-open"></i>
+													</div>
+													<div class="views-personal">
+														<h4>Ghi Chú</h4>
+														<h5 th:text="${student.ghiChu}"></h5>
+													</div>
+												</div>
+											</div>
+										</th:block>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-9">
+								<form th:action="@{/home}" id="danhgiaForm">
+									<div class="row">
+										<div class="col-12 col-sm-2">
+											<div class="form-group local-forms">
+												<label>Niên Khóa</label>
+												<select class="form-control" id="schoolYearSelect" name="nienKhoaId">
+													<option th:each="namHoc :${schoolYears}" th:value="${namHoc.id}"
+														th:text="${namHoc.tenNk}"
+														th:selected="${namHoc.id} == ${nienKhoaId}"></option>
+												</select>
+											</div>
+										</div>
+
+										<div class="col-12 col-sm-2">
+											<div class="form-group local-forms">
+												<label>Học Kỳ</label>
+												<select class="form-control select" id="semesterSelect"
+													name="hocKyId">
+													<option th:each="hocKy :${semesters}" th:value="${hocKy.id}"
+														th:nk="${hocKy.nienKhoa.id}" th:text="${hocKy.tenHk}"
+														th:selected="${hocKy.id} == ${hocKyId}">
+													</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="col-12 col-sm-2">
+											<button type="submit" class="btn btn-primary">Xem Kết Quả</button>
+										</div>
+									</div>
+								</form>
+
+								<div class="student-personals-grp">
+									<div class="card">
+										<th:block th:each="student : ${students}">
+											<div class="card-body" th:each="hocsinh :${student.nguoiDung}"
+												th:if="${hocsinh.username == currentUser.username}">
+												<div class="heading-detail">
+													<h4>Đánh Giá Kết Quả Học Tập: </h4>
+												</div>
+												<div class="row">
+													<div class="col-12 col-sm-4 personal-activity">
+													<div class="views-personal scoreAverage">
+														<h4>Điểm Trung Bình Học Kỳ I</h4>
+														<h5 th:value="${diemTrungBinhHKI}"
+															th:text="${diemTrungBinhHKI}">
+														</h5>
+													</div>
+													</div>
+													<div class="col-12 col-sm-4 personal-activity">
+														<div class="views-personal scoreAverage">
+															<h4>Điểm Trung Bình Học Kỳ II</h4>
+															<h5 th:value="${diemTrungBinhHKII}"
+																th:text="${diemTrungBinhHKII}">
+															</h5>
+														</div>
+													</div>
+													<div class="col-12 col-sm-4 personal-activity">
+														<div class="views-personal scoreAverage">
+															<h4>Điểm Trung Bình Cả Năm</h4>
+															<h5 th:value="${diemCaNam}" th:text="${diemCaNam}">
+															</h5>
+														</div>
+													</div>
+												</div>
+												
+												<div class="row">
+													<div class="col-12 col-sm-4 personal-activity">
+														<div class="views-personal">
+															<h4>Xếp Loại</h4>
+															<h5 th:value="${xepLoai}" th:text="${xepLoai}"> </h5>
+														</div>
+													</div>
+													
+													<div class="col-12 col-sm-4 personal-activity">
+														<div class="views-personal">
+															<h4>Hạnh Kiểm Cả Năm</h4>
+															<h5 th:value="${hanhKiem}" th:text="${hanhKiem}"> </h5>
+														</div>
+													</div>
+												</div>
+											</div>
+										</th:block>
+									</div>
+								</div>
+
+								<div class="student-personals-grp">
+									<div class="card mb-0" th:each="student : ${students}">
+										<div class="card-body" th:each="hocsinh :${student.nguoiDung}"
+											th:if="${hocsinh.PHAN_QUYEN[0].tenQuyen == 'ROLE_hocsinh'} and ${hocsinh.username == currentUser.username}">
+											<div class="heading-detail">
+												<h4>Bảng Điểm</h4>
+											</div>
+
+											<!--Score-->
+											<div class="table-responsive">
+												<table
+													class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
+													<thead class="student-thread">
+														<tr>
+															<th>Môn Học</th>
+															<th>Điểm Trả Bài</th>
+															<th>Điểm Giữa Kỳ</th>
+															<th>Điểm Cuối Kỳ</th>
+															<th>Trung Bình</th>
+														</tr>
+													</thead>
+											
+													<tbody>
+														<tr th:each="score : ${scoreEntities}">
+															<th:block th:if="${score.diemTrungBinh >= 0}">
+																<td th:text="${score.monHoc.tenMonHoc}"> </td>
+																<td>
+																	<span th:if="${score.monHoc.id == 10}">
+																		<span th:if="${score.diemTraBai == 1}"
+																			th:text="'Đ'"></span>
+																		<span th:if="${score.diemTraBai != 1}"
+																			th:text="'KĐ'"></span>
+																	</span>
+																	<span th:if="${score.monHoc.id != 10}"
+																		th:text="${score.diemTraBai}"></span>
+																</td>
+																<td>
+																	<span th:if="${score.monHoc.id == 10}">
+																		<span th:if="${score.diemGiuaKy == 1}"
+																			th:text="'Đ'"></span>
+																		<span th:if="${score.diemGiuaKy != 1}"
+																			th:text="'KĐ'"></span>
+																	</span>
+																	<span th:if="${score.monHoc.id != 10}"
+																		th:text="${score.diemGiuaKy}"></span>
+																</td>
+																<td>
+																	<span th:if="${score.monHoc.id == 10}">
+																		<span th:if="${score.diemCuoiKy == 1}"
+																			th:text="'Đ'"></span>
+																		<span th:if="${score.diemCuoiKy != 1}"
+																			th:text="'KĐ'"></span>
+																	</span>
+																	<span th:if="${score.monHoc.id != 10}"
+																		th:text="${score.diemCuoiKy}"></span>
+																</td>
+																<td>
+																	<span th:if="${score.monHoc.id == 10}">
+																		<span th:if="${score.diemTrungBinh == 1}"
+																			th:text="'Đ'"></span>
+																		<span th:if="${score.diemTrungBinh != 1}"
+																			th:text="'KĐ'"></span>
+																	</span>
+																	<span th:if="${score.monHoc.id != 10}"
+																		th:text="${score.diemTrungBinh}"></span>
+																</td>
+																<td id="hocKyId" th:text="${score.hocKy.tenHk}" hidden="true"></td>
+        														<td id="nienKhoaId" th:text="${score.hocKy.nienKhoa.tenNk}" hidden="true"></td>
+															</th:block>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--	<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>-->
+	<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+	<script th:src="@{/js/feather.min.js}"></script>
+
+	<script th:src="@{/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+	<script th:src="@{/js/script.js}"></script>
+</body>
+
+
+<!-- Mirrored from preschool.dreamguystech.com/template/student-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Oct 2023 10:36:42 GMT -->
+
+</html>

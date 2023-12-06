@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from preschool.dreamguystech.com/template/students.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Oct 2023 10:36:26 GMT -->
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<title>Thông Tin Giáo Viên</title>
+
+	<link rel="shortcut icon" th:href="@{/img/Logo_Dai_hoc_Can_Tho.png}">
+
+	<link th:href="@{/css/font-google-apis.css}" rel="stylesheet">
+
+	<link rel="stylesheet" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/feather/feather.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/icons/flags/flags.css}">
+
+	<link rel="stylesheet" th:href="@{/plugins/fontawesome/css/fontawesome.min.css}">
+	<link rel="stylesheet" th:href="@{/plugins/fontawesome/css/all.min.css}">
+	<link rel="stylesheet" th:href="@{/plugins/datatables/datatables.min.css}">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+
+	<style>
+		#sidebar {
+			/* CSS cho sidebar khi không bị ẩn */
+			width: 250px;
+			/* Thêm bất kỳ thuộc tính CSS khác mà bạn muốn */
+		}
+
+		#sidebar.collapsed {
+			/* CSS cho sidebar khi bị ẩn */
+			width: 0;
+			/* Thêm bất kỳ thuộc tính CSS khác mà bạn muốn */
+		}
+
+		#sidebar.collapsed .sidebar-menu {
+			/* CSS cho phần tử con khi sidebar bị ẩn */
+			display: none;
+			/* Thêm bất kỳ thuộc tính CSS khác mà bạn muốn */
+		}
+
+		#sidebar.collapsed+.page-wrapper {
+			/* Điều chỉnh chiều rộng của .page-wrapper khi sidebar bị ẩn */
+			margin-left: 0;
+			/* Hoặc bạn có thể sử dụng padding-left để thay đổi khoảng cách bên trái */
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<div class="main-wrapper">
+		<!--Header-->
+		<div th:replace="~{fragments/header :: header}"></div>
+		<!--Side-bar-->
+		<div class="sidebar" id="sidebar">
+			<div class="sidebar-inner slimscroll">
+				<div id="sidebar-menu" class="sidebar-menu">
+					<ul>
+						<li class="submenu">
+						<li><a th:href="@{/admin/dashboard}">
+								<i class="fa fa-th-large" style="margin-right: 8px;"></i> Thống Kê</a></li>
+						</li>
+					</ul>
+
+					<ul>
+						<li class="submenu ">
+							<a href="#"><i class="fas fa-graduation-cap"></i> <span> Quản Lý Tài
+									Khoản</span> <span class="menu-arrow"></span></a>
+							<ul>
+								<li><a th:href="@{/admin/home}">Tài Khoản</a></li>
+							</ul>
+						</li>
+					</ul>
+
+					<ul>
+						<li class="submenu active">
+							<a href="#"><i class="fas fa-graduation-cap"></i> <span> Quản Lý Giáo Viên</span> <span
+									class="menu-arrow"></span></a>
+							<ul>
+								<li><a th:href="@{/admin/home/teachers}" class="active">Thông Tin Giáo Viên</a></li>
+							</ul>
+						</li>
+					</ul>
+					<ul>
+						<li class="submenu">
+							<a href="#"><i class="fas fa-graduation-cap"> </i> <span> Quản Lý Lớp Học</span> <span
+									class="menu-arrow"></span></a>
+							<ul>
+								<li><a th:href="@{/admin/home/students}">Thông Tin Học Sinh</a></li>
+								<li><a th:href="@{/admin/students/scores}">Bảng Điểm Học Sinh</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--Content-->
+		<div class="page-wrapper">
+			<div class="content container-fluid">
+				<div>
+					<a href="#" id="toggle-sidebar"><i class="fas fa-bars"></i></a>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card card-table comman-shadow">
+							<div class="card-body">
+
+								<div class="page-header">
+									<div class="row align-items-center">
+										<div class="col">
+											<h3 class="page-title">Danh Sách Giáo Viên</h3>
+										</div>
+									</div>
+								</div>
+
+								<div class="table-responsive">
+									<table
+										class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
+										<thead class="student-thread">
+											<tr>
+
+												<th>ID</th>
+												<th>Họ Tên</th>
+												<th>Giới Tính</th>
+												<th>Năm Sinh</th>
+												<th>Địa Chỉ</th>
+												<th>Trình Độ</th>
+												<th>GVCN</th>
+												<!--<th>Niên Khóa</th>
+												<th>Lớp Học</th>-->
+												<th>Môn Học</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="teacher :${teachers}">
+												<td th:text="${teacher.id}"> </td> <!--giaoVienId-->
+												<td th:text="${teacher.nguoiDung[0].hoTen}"> </td>
+												<td th:text="${teacher.nguoiDung[0].gioiTinh}"> </td>
+												<td
+													th:text="${teacher.nguoiDung[0].namSinh}  ? ${#dates.format(teacher.nguoiDung[0].namSinh, 'dd-MM-yyyy')} : ''">
+												</td>
+												<td th:text="${teacher.nguoiDung[0].diaChi}"> </td>
+												<td th:text="${teacher.trinhDo}"> </td>
+												<td>
+													<div class="form-check check-tables">
+														<input class="form-check-input" type="checkbox"
+															th:checked="${teacher.gvcn}">
+													</div>
+												</td>
+												<!--<td>
+													<div class="col-12 col-sm-3" style="width: 100px; text-align: center;">
+														<div class="form-group local-forms">
+															<select class="form-control select" id="schoolYearSelect">
+																<option th:each="namHoc :${schoolYears}"
+																	th:value="${namHoc.id}" th:text="${namHoc.tenNk}" />
+															</select>
+														</div>
+													</div>
+
+													<div class="col-12 col-sm-3" hidden="true">
+														<div class="form-group local-forms">
+															<select class="form-control select" id="semesterSelect"
+																th:field="${semesters}">
+																<option th:each="hocKy :${semesters}"
+																	th:value="${hocKy.id}" th:nk="${hocKy.nienKhoa.id}"
+																	th:text="${hocKy.tenHk}" />
+															</select>
+														</div>
+													</div>
+												</td>
+												<td>
+													<div class="col-12 col-sm-3 " style="width: 50px; text-align: center;">
+														<div class="form-group local-forms">
+															<select class="form-control select" id="classSelect">
+																<option th:each="hteacher : ${hTeacherEntities}"
+																	th:value="${hteacher.lopHoc.id}"
+																	th:text="${hteacher.lopHoc.tenLop}"
+																	th:semester="${hteacher.hocKy.id}" />
+															</select>
+														</div>
+													</div>
+												</td>-->
+												<td>
+													<th:block th:if="${teacher.gvcn == false }">
+														<span th:text="${teacher.monHoc[0].tenMonHoc}"></span>
+													</th:block>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--Footer-->
+
+		</div>
+
+	</div>
+
+
+	<script th:src="@{/plugins/datatables/datatables.min.js}"></script>
+
+	<script th:src="@{/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+	<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+	<script th:src="@{/js/feather.min.js}"></script>
+
+	<script th:src="@{/js/script.js}"></script>
+
+	<script>
+
+		function yearChange() {
+			var selectedSchoolYearId = $("#schoolYearSelect").val();
+
+			if (selectedSchoolYearId) {
+				const defaultValue = $(`#semesterSelect option[nk='${selectedSchoolYearId}']:first`).attr("value")
+				$("#semesterSelect").val(defaultValue).trigger("change");
+				$(`#semesterSelect option[nk='${selectedSchoolYearId}']`).show();
+				$(`#semesterSelect option[nk!='${selectedSchoolYearId}']`).hide();
+			}
+		}
+
+		function semesterChanged() {
+			const semesterValue = $(`#semesterSelect`).val();
+
+			$(`#classSelect option[semester='${semesterValue}']`).show();
+			$(`#classSelect option[semester!='${semesterValue}']`).hide();
+
+			const defaultValue = $(`#classSelect option[semester='${semesterValue}']:first`).attr("value")
+			const classValue = $("#classSelect").val(defaultValue).trigger("change");
+		}
+
+		$("#schoolYearSelect").change(function () {
+			yearChange();
+		});
+
+		$("#semesterSelect").change(function () {
+			semesterChanged();
+		});
+
+		$(document).ready(function () {
+			yearChange();
+		});
+
+		$(document).ready(function () {
+			$("#toggle-sidebar").click(function () {
+				$("#sidebar").toggleClass("collapsed");
+			});
+		});
+	</script>
+
+</body>
+
+<!-- Mirrored from preschool.dreamguystech.com/template/students.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Oct 2023 10:36:36 GMT -->
+
+</html>
